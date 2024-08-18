@@ -1,7 +1,5 @@
 class Solution {
     public int numJewelsInStones(String jewels, String stones) {
-      //  int s = stones.length();
-      //  int j = jewels.length();
         char []st=stones.toCharArray();
         char []je=jewels.toCharArray();
         int count=0;
