@@ -1,32 +1,32 @@
 class Solution {
     public int countPalindromicSubsequence(String s) {
-        int n = s.length();
-        HashSet<Character> leftSet = new HashSet<>();
-        int[] rightFreq = new int[26];
+      int n = s.length();
+        int result = 0;
         
-        // Count frequency of characters to the right of the first character
-        for (int i = 0; i < n; i++) {
-            rightFreq[s.charAt(i) - 'a']++;
-        }
-        
-        // Track unique palindromes
-        HashSet<String> uniquePalindromes = new HashSet<>();
-        
-        // Iterate through the string
-        for (int i = 0; i < n; i++) {
-            char midChar = s.charAt(i);
-            rightFreq[midChar - 'a']--; // Remove current character from the right
+        // Iterate over all lowercase characters as potential middle characters
+        for (char middle = 'a'; middle <= 'z'; middle++) {
+            int first = -1, last = -1;
             
-            // Check for palindromes
-            for (char leftChar : leftSet) {
-                if (rightFreq[leftChar - 'a'] > 0) {
-                    uniquePalindromes.add("" + leftChar + midChar + leftChar);
+            // Find the first and last occurrence of the middle character
+            for (int i = 0; i < n; i++) {
+                if (s.charAt(i) == middle) {
+                    if (first == -1) {
+                        first = i; // Set the first occurrence
+                    }
+                    last = i; // Update the last occurrence
                 }
             }
             
-            leftSet.add(midChar);
+            // If a valid range exists, count unique characters between first and last
+            if (first != -1 && last != -1 && last > first + 1) {
+                HashSet<Character> uniqueChars = new HashSet<>();
+                for (int i = first + 1; i < last; i++) {
+                    uniqueChars.add(s.charAt(i));
+                }
+                result += uniqueChars.size(); // Add the count of unique characters
+            }
         }
         
-        return uniquePalindromes.size();  
+        return result;  
     }
 }
