@@ -24,7 +24,6 @@ class Solution {
                 }
             }
             
-            // Add the current character to the left set
             leftSet.add(midChar);
         }
         
