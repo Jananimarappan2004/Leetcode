@@ -1,44 +1,32 @@
 class Solution {
     public boolean canBeValid(String s, String locked) {
-         int length = s.length();
-
-        // If length of string is odd, return false.
-        if (length % 2 == 1) {
+         int n = s.length();
+        if (n % 2 != 0) {
             return false;
         }
-
-        Stack<Integer> openBrackets = new Stack<>();
-        Stack<Integer> unlocked = new Stack<>();
-
-        // Iterate through the string to handle '(' and ')'
-        for (int i = 0; i < length; i++) {
-            if (locked.charAt(i) == '0') {
-                unlocked.push(i);
-            } else if (s.charAt(i) == '(') {
-                openBrackets.push(i);
-            } else if (s.charAt(i) == ')') {
-                if (!openBrackets.empty()) {
-                    openBrackets.pop();
-                } else if (!unlocked.empty()) {
-                    unlocked.pop();
+        int upper = 0;
+        int lower = 0;
+        for (int i = 0; i < n; i++) {
+            if (locked.charAt(i) == '1') {
+                if (s.charAt(i) == '(') {
+                    lower++;
+                    upper++;
                 } else {
-                    return false;
+                    lower--;
+                    upper--;
                 }
+            } else {
+                upper++;
+                lower--;
+            }
+            if (lower < 0) {
+                lower += 2;
+            }
+            if (upper < 0) {
+                return false;
             }
         }
-         while (
-            !openBrackets.empty() &&
-            !unlocked.empty() &&
-            openBrackets.peek() < unlocked.peek()
-        ) {
-            openBrackets.pop();
-            unlocked.pop();
-        }
+        return lower == 0;
 
-        if (!openBrackets.empty()) {
-            return false;
-        }
-
-        return true;
     }
 }
