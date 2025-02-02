@@ -1,32 +1,14 @@
 class Solution {
-    public boolean check(int[] nums) {
-        int n = nums.length;
-
-        // Construct the rotated array
-        int[] checkSorted = new int[n];
-
-        // Iterate through all possible rotation offsets
-        for (int rotationOffset = 0; rotationOffset < n; ++rotationOffset) {
-            int currIndex = 0;
-            for (int index = rotationOffset; index < n; ++index) {
-                checkSorted[currIndex++] = nums[index];
+    public boolean check(int[] arr) {
+         int count=0;
+        for(int i=1;i<arr.length;i++){
+            if(arr[i]<arr[i-1]){
+                count++;
             }
-            for (int index = 0; index < rotationOffset; ++index) {
-                checkSorted[currIndex++] = nums[index];
-            }
-
-            // Check if the constructed array is sorted
-            boolean isSorted = true;
-            for (int index = 0; index < n - 1; ++index) {
-                if (checkSorted[index] > checkSorted[index + 1]) {
-                    isSorted = false;
-                    break;
-                }
-            }
-            if(isSorted){
-                return true;
-            }
+        }
+        if(arr[arr.length-1]>arr[0]){
+            count++;
+        }
+        return count<=1;
     }
-        return false;
-}
 }
